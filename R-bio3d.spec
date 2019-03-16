@@ -4,36 +4,35 @@
 #
 Name     : R-bio3d
 Version  : 2.3.4
-Release  : 5
+Release  : 6
 URL      : https://cran.r-project.org/src/contrib/bio3d_2.3-4.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/bio3d_2.3-4.tar.gz
 Summary  : Biological Structure Analysis
 Group    : Development/Tools
 License  : GPL-2.0+
-Requires: R-bio3d-lib
+Requires: R-bio3d-lib = %{version}-%{release}
 Requires: R-Rcpp
 Requires: R-igraph
 Requires: R-markdown
-Requires: R-stringi
 BuildRequires : R-Rcpp
 BuildRequires : R-igraph
 BuildRequires : R-markdown
-BuildRequires : R-stringi
-BuildRequires : clr-R-helpers
+BuildRequires : buildreq-R
 BuildRequires : pkgconfig(zlib)
 BuildRequires : zlib-dev
 
 %description
-sequence and dynamics data. Features include the ability to read and write
-    structure, sequence and dynamic trajectory data, perform sequence and structure
-    database searches, data summaries, atom selection, alignment, superposition,
-    rigid core identification, clustering, torsion analysis, distance matrix
-    analysis, structure and sequence conservation analysis, normal mode analysis,
-    principal component analysis of heterogeneous structure data, and correlation
-    network analysis from normal mode and molecular dynamics data. In addition,
-    various utility functions are provided to enable the statistical and graphical
-    power of the R environment to work with biological sequence and structural data.
-    Please refer to the URLs below for more information.
+# Documentation
+The Bio3D package for structural bioinformatics consists of sets of functions for:
+- <a href="#Input/Output:">input/output</a>,
+- <a href="#Sequence Analysis:">sequence analysis</a>,
+- <a href="#Structure Analysis:">structure analysis</a>,
+- <a href="#Trajectory Analysis:">simulation analysis</a>,
+- <a href="#Normal Mode Analysis:">normal mode analysis</a>,
+- <a href="#Correlation Network Analysis:"> correlation network analysis</a>,
+- <a href="#Utilities:">format conversion and data manipulation</a>, and
+- <a href="#Graphics:">graphics and visualization.</a>.
+Major functions are listed below with links to further documentation that includes example code and results.
 
 %package lib
 Summary: lib components for the R-bio3d package.
@@ -51,11 +50,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530308328
+export SOURCE_DATE_EPOCH=1552719877
 
 %install
+export SOURCE_DATE_EPOCH=1552719877
 rm -rf %{buildroot}
-export SOURCE_DATE_EPOCH=1530308328
 export LANG=C
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
@@ -73,9 +72,9 @@ echo "FFLAGS = $FFLAGS -march=haswell -ftree-vectorize " >> ~/.R/Makevars
 echo "CXXFLAGS = $CXXFLAGS -march=haswell -ftree-vectorize " >> ~/.R/Makevars
 R CMD INSTALL --install-tests --built-timestamp=${SOURCE_DATE_EPOCH} --build  -l %{buildroot}/usr/lib64/R/library bio3d
 for i in `find %{buildroot}/usr/lib64/R/ -name "*.so"`; do mv $i $i.avx2 ; mv $i.avx2 ~/.stash/; done
-echo "CFLAGS = $CFLAGS -march=skylake-avx512 -ftree-vectorize -mprefer-vector-width=512 " > ~/.R/Makevars
-echo "FFLAGS = $FFLAGS -march=skylake-avx512 -ftree-vectorize -mprefer-vector-width=512 " >> ~/.R/Makevars
-echo "CXXFLAGS = $CXXFLAGS -march=skylake-avx512 -ftree-vectorize -mprefer-vector-width=512  " >> ~/.R/Makevars
+echo "CFLAGS = $CFLAGS -march=skylake-avx512 -ftree-vectorize " > ~/.R/Makevars
+echo "FFLAGS = $FFLAGS -march=skylake-avx512 -ftree-vectorize " >> ~/.R/Makevars
+echo "CXXFLAGS = $CXXFLAGS -march=skylake-avx512 -ftree-vectorize " >> ~/.R/Makevars
 R CMD INSTALL --preclean --install-tests --no-test-load --built-timestamp=${SOURCE_DATE_EPOCH} --build  -l %{buildroot}/usr/lib64/R/library bio3d
 for i in `find %{buildroot}/usr/lib64/R/ -name "*.so"`; do mv $i $i.avx512 ; mv $i.avx512 ~/.stash/; done
 echo "CFLAGS = $CFLAGS -ftree-vectorize " > ~/.R/Makevars
@@ -90,8 +89,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export _R_CHECK_FORCE_SUGGESTS_=false
-R CMD check --no-manual --no-examples --no-codoc -l %{buildroot}/usr/lib64/R/library bio3d|| : 
-cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
+R CMD check --no-manual --no-examples --no-codoc  bio3d || :
 
 
 %files
@@ -141,7 +139,6 @@ cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
 /usr/lib64/R/library/bio3d/help/paths.rds
 /usr/lib64/R/library/bio3d/html/00Index.html
 /usr/lib64/R/library/bio3d/html/R.css
-/usr/lib64/R/library/bio3d/libs/symbols.rds
 /usr/lib64/R/library/bio3d/matrices/bio3d.mat
 /usr/lib64/R/library/bio3d/matrices/blosum62.mat
 /usr/lib64/R/library/bio3d/matrices/custom.mat
@@ -150,9 +147,37 @@ cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
 /usr/lib64/R/library/bio3d/matrices/properties.mat
 /usr/lib64/R/library/bio3d/matrices/similarity.mat
 /usr/lib64/R/library/bio3d/staticdocs/index.r
+/usr/lib64/R/library/bio3d/tests/testthat.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-aa2mass.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-aanma.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-aanma.pdbs.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-atom.select.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-atom2mass.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-clean.pdb.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-cmap.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-cna.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-core.find.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-dccm.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-deformation.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-dssp.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-fitting.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-get.pdb.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-gnm.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-mol2.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-nma.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-nma.pdbs.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-overlap.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-pca.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-pdb.annotate.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-pdbsplit.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-read.all.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-read.ncdf.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-read.pdb.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-rmsd.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-seqaln.R
+/usr/lib64/R/library/bio3d/tests/testthat/test-vector-funs.R
 
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/R/library/bio3d/libs/bio3d.so
 /usr/lib64/R/library/bio3d/libs/bio3d.so.avx2
-/usr/lib64/R/library/bio3d/libs/bio3d.so.avx512
