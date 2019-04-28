@@ -4,16 +4,13 @@
 #
 Name     : R-bio3d
 Version  : 2.3.4
-Release  : 10
+Release  : 11
 URL      : https://cran.r-project.org/src/contrib/bio3d_2.3-4.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/bio3d_2.3-4.tar.gz
 Summary  : Biological Structure Analysis
 Group    : Development/Tools
 License  : GPL-2.0+
 Requires: R-bio3d-lib = %{version}-%{release}
-Requires: R-Rcpp
-Requires: R-igraph
-Requires: R-markdown
 BuildRequires : R-Rcpp
 BuildRequires : R-igraph
 BuildRequires : R-markdown
@@ -50,10 +47,10 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1552719877
+export SOURCE_DATE_EPOCH=1556465374
 
 %install
-export SOURCE_DATE_EPOCH=1552719877
+export SOURCE_DATE_EPOCH=1556465374
 rm -rf %{buildroot}
 export LANG=C
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
@@ -89,7 +86,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export _R_CHECK_FORCE_SUGGESTS_=false
-R CMD check --no-manual --no-examples --no-codoc  bio3d || :
+R CMD check --no-manual --no-examples --no-codoc bio3d || :
 
 
 %files
@@ -181,3 +178,4 @@ R CMD check --no-manual --no-examples --no-codoc  bio3d || :
 %defattr(-,root,root,-)
 /usr/lib64/R/library/bio3d/libs/bio3d.so
 /usr/lib64/R/library/bio3d/libs/bio3d.so.avx2
+/usr/lib64/R/library/bio3d/libs/bio3d.so.avx512
