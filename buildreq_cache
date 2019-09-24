@@ -1,6 +1,4 @@
 2.3.4
-R-Rcpp
 R-igraph
-R-markdown
 pkgconfig(zlib)
 zlib-dev

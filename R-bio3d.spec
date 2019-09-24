@@ -4,32 +4,32 @@
 #
 Name     : R-bio3d
 Version  : 2.3.4
-Release  : 14
+Release  : 15
 URL      : https://cran.r-project.org/src/contrib/bio3d_2.3-4.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/bio3d_2.3-4.tar.gz
 Summary  : Biological Structure Analysis
 Group    : Development/Tools
 License  : GPL-2.0+
 Requires: R-bio3d-lib = %{version}-%{release}
+Requires: R-Rcpp
+Requires: R-igraph
 BuildRequires : R-Rcpp
 BuildRequires : R-igraph
-BuildRequires : R-markdown
 BuildRequires : buildreq-R
 BuildRequires : pkgconfig(zlib)
 BuildRequires : zlib-dev
 
 %description
-# Documentation
-The Bio3D package for structural bioinformatics consists of sets of functions for:
-- <a href="#Input/Output:">input/output</a>,
-- <a href="#Sequence Analysis:">sequence analysis</a>,
-- <a href="#Structure Analysis:">structure analysis</a>,
-- <a href="#Trajectory Analysis:">simulation analysis</a>,
-- <a href="#Normal Mode Analysis:">normal mode analysis</a>,
-- <a href="#Correlation Network Analysis:"> correlation network analysis</a>,
-- <a href="#Utilities:">format conversion and data manipulation</a>, and
-- <a href="#Graphics:">graphics and visualization.</a>.
-Major functions are listed below with links to further documentation that includes example code and results.
+sequence and dynamics data. Features include the ability to read and write
+    structure, sequence and dynamic trajectory data, perform sequence and structure
+    database searches, data summaries, atom selection, alignment, superposition,
+    rigid core identification, clustering, torsion analysis, distance matrix
+    analysis, structure and sequence conservation analysis, normal mode analysis,
+    principal component analysis of heterogeneous structure data, and correlation
+    network analysis from normal mode and molecular dynamics data. In addition,
+    various utility functions are provided to enable the statistical and graphical
+    power of the R environment to work with biological sequence and structural data.
+    Please refer to the URLs below for more information.
 
 %package lib
 Summary: lib components for the R-bio3d package.
@@ -46,13 +46,13 @@ lib components for the R-bio3d package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1556481316
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1569354193
 
 %install
-export SOURCE_DATE_EPOCH=1556481316
+export SOURCE_DATE_EPOCH=1569354193
 rm -rf %{buildroot}
-export LANG=C
+export LANG=C.UTF-8
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
@@ -81,7 +81,7 @@ R CMD INSTALL --preclean --install-tests --built-timestamp=${SOURCE_DATE_EPOCH} 
 cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
 %{__rm} -rf %{buildroot}%{_datadir}/R/library/R.css
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
