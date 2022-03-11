@@ -4,7 +4,7 @@
 #
 Name     : R-bio3d
 Version  : 2.4.3
-Release  : 38
+Release  : 39
 URL      : https://cran.r-project.org/src/contrib/bio3d_2.4-3.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/bio3d_2.4-3.tar.gz
 Summary  : Biological Structure Analysis
