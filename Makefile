@@ -1,5 +1,5 @@
 PKG_NAME := R-bio3d
-URL = https://cran.r-project.org/src/contrib/bio3d_2.4-4.tar.gz
+URL = https://ftp.osuosl.org/pub/cran/src/contrib/bio3d_2.4-5.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
